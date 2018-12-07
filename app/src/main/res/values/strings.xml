@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Banca do Valdir</string>
+    <string name="subtitle">Nossa família servindo a sua</string>
+    <string name="title">Banca do Valdir</string>
+    <string name="new_purchase">Nova compra</string>
+    <string name="view">Visualizar</string>
+    <string name="edit">Editar</string>
+    <string name="name">Nome</string>
+    <string name="address">Endereço</string>
+    <string name="birthday">Data de aniversário</string>
+    <string name="account_number">Número da conta</string>
+    <string name="account_agency">Agência</string>
+    <string name="cancel">Cancelar</string>
+    <string name="date_formatter">dd/MM/yyyy</string>
+    <string name="new_client">Novo Cliente</string>
+    <string name="edit_client">Editar Cliente</string>
+    <string name="add">Adicionar</string>
+    <string name="update">Atualizar</string>
+    <string name="delete">Excluir</string>
+    <string name="deleting">Excluindo</string>
+    <string name="create_item_message">Cliente adicionado na lista</string>
+    <string name="edit_item_message">Cliente atualizado</string>
+    <string name="delete_cliente">Tem certeza que deseja excluir este Cliente?</string>
+    <string name="delete_fornecedor">Tem certeza que deseja excluir este Fornecedor?</string>
+    <string name="cadastro">CPF ou CNPJ</string>
+    <string name="new_fornecedor">Novo Fornecedor</string>
+    <string name="edit_fornecedor">Editar Fornecedor</string>
+    <string name="entradas_saidas">Entradas e saídas</string>
+    <string name="cadastros">Cadastros</string>
+    <string name="navigation_drawer_open">Open NavigationView</string>
+    <string name="navigation_drawer_close">Close NavigationView</string>
+    <string name="acerto">Efetuar acerto</string>
+    <string name="aberto">Em aberto</string>
+    <string name="new_venda">Nova venda</string>
+    <string name="valor">Valor</string>
+    <string name="date_purchase">Data da compra</string>
+</resources>
