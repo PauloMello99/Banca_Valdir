@@ -20,7 +20,7 @@
     <string name="deleting">Excluindo</string>
     <string name="create_item_message">Cliente adicionado na lista</string>
     <string name="edit_item_message">Cliente atualizado</string>
-    <string name="delete_cliente">Tem certeza que deseja excluir este Cliente?</string>
+    <string name="delete_cliente">Tem certeza que deseja excluir este Cliente? </string>
     <string name="delete_fornecedor">Tem certeza que deseja excluir este Fornecedor?</string>
     <string name="cadastro">CPF ou CNPJ</string>
     <string name="new_fornecedor">Novo Fornecedor</string>
@@ -32,6 +32,10 @@
     <string name="acerto">Efetuar acerto</string>
     <string name="aberto">Em aberto</string>
     <string name="new_venda">Nova venda</string>
+    <string name="new_compra">Nova compra</string>
     <string name="valor">Valor</string>
     <string name="date_purchase">Data da compra</string>
+    <string name="acertar_tudo">Pagar tudo</string>
+    <string name="valor_pago">Valor pago</string>
+    <string name="confirm_value">Confirme o valor a ser pago</string>
 </resources>

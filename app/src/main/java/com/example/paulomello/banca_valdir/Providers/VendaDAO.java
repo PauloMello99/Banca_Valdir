@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.example.paulomello.banca_valdir.Models.Cliente;
 import com.example.paulomello.banca_valdir.Models.Venda;
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ public class VendaDAO implements SQLiteGenericDAO<Venda> {
     }
 
     @Override
-    public long create(Venda venda) throws Exception {
+    public long create(Venda venda) {
         SQLiteDatabase database = helper.getWritableDatabase();
         ContentValues contentValues = getContentValues(venda);
         long id = database.insert(VendaSchema.TABLE_VENDA, null, contentValues);
@@ -34,7 +33,7 @@ public class VendaDAO implements SQLiteGenericDAO<Venda> {
     }
 
     @Override
-    public void update(Venda venda) throws Exception {
+    public void update(Venda venda){
         SQLiteDatabase database = helper.getWritableDatabase();
         ContentValues contentValues = getContentValues(venda);
         database.update(VendaSchema.TABLE_VENDA, contentValues, VendaSchema.WHERE_ID_EQUAL, new String[]{String.valueOf(venda.getId())});
@@ -42,14 +41,14 @@ public class VendaDAO implements SQLiteGenericDAO<Venda> {
     }
 
     @Override
-    public void delete(Venda venda) throws Exception {
+    public void delete(Venda venda) {
         SQLiteDatabase database = helper.getWritableDatabase();
-        database.delete(VendaSchema.TABLE_VENDA, ClienteSchema.WHERE_ID_EQUAL, new String[]{String.valueOf(venda.getId())});
+        database.delete(VendaSchema.TABLE_VENDA, VendaSchema.WHERE_ID_EQUAL, new String[]{String.valueOf(venda.getId())});
         database.close();
     }
 
     @Override
-    public Venda searchById(long id) throws Exception {
+    public Venda searchById(long id) {
         SQLiteDatabase database = helper.getReadableDatabase();
         Cursor cursor = database.rawQuery(VendaSchema.SELECT_BY_ID_VENDA, new String[]{String.valueOf(id)});
 
@@ -65,12 +64,12 @@ public class VendaDAO implements SQLiteGenericDAO<Venda> {
     }
 
     @Override
-    public Venda searchByName(String name) throws Exception {
+    public Venda searchByName(String name) {
         return null;
     }
 
     @Override
-    public List<Venda> searchAll() throws Exception {
+    public List<Venda> searchAll() {
         List<Venda> list = new ArrayList<>();
         SQLiteDatabase database = helper.getReadableDatabase();
         Cursor cursor = database.rawQuery(VendaSchema.SELECT_ALL_VENDA, null);
@@ -87,9 +86,10 @@ public class VendaDAO implements SQLiteGenericDAO<Venda> {
         return list;
     }
 
+
     private ContentValues getContentValues(Venda venda) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(ClienteSchema.TABLE_COLUMN_NAME, venda.getId_cliente());
+        contentValues.put(VendaSchema.COLUMN_ID_CLIENTE, venda.getId_cliente());
         contentValues.put(VendaSchema.COLUMN_STATUS,venda.getStatus());
         contentValues.put(VendaSchema.COLUMN_VALOR,venda.getValor());
         contentValues.put(VendaSchema.COLUMN_DATA_VENDA,venda.getData_venda());

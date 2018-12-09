@@ -30,14 +30,21 @@
                 android:layout_weight="0.5"/>
 
             <TextView
-                android:id="@+id/valor_cliente_venda"
+                android:id="@+id/venda_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
-                android:layout_weight="0.5"/>
+                android:layout_weight="0.5"
+                android:textAlignment="textEnd"/>
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:id="@+id/valor_cliente_venda"
+            android:textSize="24sp"/>
 
         <LinearLayout
             android:layout_width="match_parent"

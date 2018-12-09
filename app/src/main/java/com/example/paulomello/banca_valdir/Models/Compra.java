@@ -9,10 +9,10 @@ public class Compra implements Serializable {
     private long id;
     private long id_fornecedor;
     private String status;
-    private Double valor;
+    private String valor;
     private String data_compra;
 
-    public Compra(long id,long id_fornecedor, String status,Double valor,String data_compra){
+    public Compra(long id,long id_fornecedor, String status,String valor,String data_compra){
         this.id = id;
         this.id_fornecedor = id_fornecedor;
         this.status = status;
@@ -20,7 +20,7 @@ public class Compra implements Serializable {
         this.data_compra = data_compra;
     }
 
-    public Compra(long id_fornecedor, String status,Double valor, String data_compra){
+    public Compra(long id_fornecedor, String status,String valor, String data_compra){
         this(0,id_fornecedor,status,valor,data_compra);
     }
 
@@ -33,7 +33,7 @@ public class Compra implements Serializable {
     }
 
     public Compra(){
-        this(0,0,"",0.0,"");
+        this(0,0,"","","");
     }
 
     public long getId() {
@@ -60,11 +60,11 @@ public class Compra implements Serializable {
         this.status = status;
     }
 
-    public Double getValor() {
+    public String getValor() {
         return valor;
     }
 
-    public void setValor(Double valor) {
+    public void setValor(String valor) {
         this.valor = valor;
     }
 }

@@ -20,7 +20,9 @@ import com.example.paulomello.banca_valdir.Adapters.ClienteAdapter;
 import com.example.paulomello.banca_valdir.Adapters.ClienteDialogFragment;
 import com.example.paulomello.banca_valdir.Adapters.ClientePurchaseDialogFragment;
 import com.example.paulomello.banca_valdir.Models.Cliente;
+import com.example.paulomello.banca_valdir.Models.Venda;
 import com.example.paulomello.banca_valdir.Providers.ClienteDAO;
+import com.example.paulomello.banca_valdir.Providers.VendaDAO;
 import com.example.paulomello.banca_valdir.R;
 
 import java.util.ArrayList;
@@ -31,7 +33,7 @@ public class ClienteFragment extends Fragment implements ClienteAdapter.ClienteA
 
     private View view;
     private static Context context;
-    public static List<Cliente> clientes = new ArrayList<>();
+    public  static List<Cliente> clientes = new ArrayList<>();
     private static ClienteDAO clienteDAO;
     private static ClienteAdapter adapter;
     private static RecyclerView recyclerView;

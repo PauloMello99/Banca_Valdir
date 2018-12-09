@@ -12,6 +12,7 @@ import com.example.paulomello.banca_valdir.Models.Venda;
 import com.example.paulomello.banca_valdir.R;
 import com.example.paulomello.banca_valdir.Utils.VendaViewHolder;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 public class VendaAdapter extends RecyclerView.Adapter<VendaViewHolder> {
@@ -24,6 +25,7 @@ public class VendaAdapter extends RecyclerView.Adapter<VendaViewHolder> {
     private List<Venda> vendas;
     private Context context;
     private VendaAdapterListener listener;
+    private NumberFormat format = NumberFormat.getCurrencyInstance();
 
     public VendaAdapter(List<Venda> vendas, Context context, Fragment fragment){
         this.vendas = vendas;
@@ -41,8 +43,11 @@ public class VendaAdapter extends RecyclerView.Adapter<VendaViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull final VendaViewHolder vendaViewHolder, int i) {
         final Venda venda = vendas.get(i);
-        vendaViewHolder.getNameTextView().setText("TESTE");
-        vendaViewHolder.getValorTextView().setText(venda.getValor());
+        Double valor = Double.parseDouble(venda.getValor());
+        String valorStr = format.format(valor);
+        vendaViewHolder.getNameTextView().setText(String.valueOf("ID: "+venda.getId_cliente()));
+        vendaViewHolder.getValorTextView().setText(valorStr);
+        vendaViewHolder.getStatus().setText(venda.getStatus());
         vendaViewHolder.getAcertoButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

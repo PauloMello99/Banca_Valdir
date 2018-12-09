@@ -1,5 +1,6 @@
 package com.example.paulomello.banca_valdir.Activities;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -19,14 +20,16 @@ import android.widget.Toast;
 import com.example.paulomello.banca_valdir.Adapters.ClienteDialogFragment;
 import com.example.paulomello.banca_valdir.Adapters.ClientePurchaseDialogFragment;
 import com.example.paulomello.banca_valdir.Adapters.FornecedorDialogFragment;
+import com.example.paulomello.banca_valdir.Adapters.FornecedorPurchaseDialogFragment;
 import com.example.paulomello.banca_valdir.Adapters.ViewPagerAdapter;
 import com.example.paulomello.banca_valdir.Fragments.ClienteFragment;
-import com.example.paulomello.banca_valdir.Fragments.ClientePurchaseFragment;
 import com.example.paulomello.banca_valdir.Fragments.FornecedorFragment;
-import com.example.paulomello.banca_valdir.Fragments.FornecedorPurchaseFragment;
 import com.example.paulomello.banca_valdir.Models.Cliente;
+import com.example.paulomello.banca_valdir.Models.Compra;
 import com.example.paulomello.banca_valdir.Models.Fornecedor;
 import com.example.paulomello.banca_valdir.Models.Venda;
+import com.example.paulomello.banca_valdir.Providers.CompraDAO;
+import com.example.paulomello.banca_valdir.Providers.VendaDAO;
 import com.example.paulomello.banca_valdir.R;
 
 
@@ -34,7 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity implements ClienteDialogFragment.NoticeDialogListener,FornecedorDialogFragment.NoticeDialogListener,NavigationView.OnNavigationItemSelectedListener,ClientePurchaseDialogFragment.NoticeDialogListener {
+public class MainActivity extends AppCompatActivity implements ClienteDialogFragment.NoticeDialogListener,FornecedorDialogFragment.NoticeDialogListener,NavigationView.OnNavigationItemSelectedListener,ClientePurchaseDialogFragment.NoticeDialogListener,FornecedorPurchaseDialogFragment.NoticeDialogListener {
 
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
@@ -51,8 +54,9 @@ public class MainActivity extends AppCompatActivity implements ClienteDialogFrag
     @BindView(R.id.add_action_button)
     FloatingActionButton fab;
 
-    public int teste = 0;
     public ViewPagerAdapter viewPagerAdapter;
+    private VendaDAO vendaDAO = new VendaDAO(this);
+    private CompraDAO compraDAO = new CompraDAO(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +114,22 @@ public class MainActivity extends AppCompatActivity implements ClienteDialogFrag
 
     @Override
     public void onDialogPositiveClick(Venda venda, int position) {
-        Toast.makeText(this, "DEU CERTO", Toast.LENGTH_LONG).show();
+        try {
+            vendaDAO.create(venda);
+            Toast.makeText(this,"Venda adicionada com sucesso!",Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onDialogPositiveClick(Compra compra, int position) {
+        try {
+            compraDAO.create(compra);
+            Toast.makeText(this,"Compra adicionada com sucesso!",Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -142,29 +161,13 @@ public class MainActivity extends AppCompatActivity implements ClienteDialogFrag
         switch (menuItem.getItemId())
         {
             case R.id.menu_cadastro:
-                 if(teste==1)
-                 {
-                     viewPagerAdapter.removeFragment(1);
-                     viewPagerAdapter.removeFragment(0);
-                     viewPagerAdapter.addFragment(new ClienteFragment(),"Clientes");
-                     viewPagerAdapter.addFragment(new FornecedorFragment(), "Fornecedores");
-                     fab.show();
-                     teste = 0;
-                 }
+                drawerLayout.closeDrawer(GravityCompat.START);drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.menu_dinheiro:
-                if(teste==0)
-                {
-                    viewPagerAdapter.removeFragment(1);
-                    viewPagerAdapter.removeFragment(0);
-                    viewPagerAdapter.addFragment(new ClientePurchaseFragment(),"Vendas");
-                    viewPagerAdapter.addFragment(new FornecedorPurchaseFragment(), "Compras");
-                    fab.hide();
-                    teste = 1;
-                }
+                Intent intent = new Intent(MainActivity.this,PurchaseActivity.class);
+                startActivity(intent);
                 break;
         }
-        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -172,5 +175,4 @@ public class MainActivity extends AppCompatActivity implements ClienteDialogFrag
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
-
 }

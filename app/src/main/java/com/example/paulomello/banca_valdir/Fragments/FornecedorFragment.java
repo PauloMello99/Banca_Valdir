@@ -16,8 +16,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.paulomello.banca_valdir.Adapters.ClientePurchaseDialogFragment;
 import com.example.paulomello.banca_valdir.Adapters.FornecedorAdapter;
 import com.example.paulomello.banca_valdir.Adapters.FornecedorDialogFragment;
+import com.example.paulomello.banca_valdir.Adapters.FornecedorPurchaseDialogFragment;
 import com.example.paulomello.banca_valdir.Models.Fornecedor;
 import com.example.paulomello.banca_valdir.Providers.FornecedorDAO;
 import com.example.paulomello.banca_valdir.R;
@@ -114,9 +116,17 @@ public class FornecedorFragment extends Fragment implements FornecedorAdapter.Fo
         builder.show();
     }
 
+    private void showFornecedorPurchaseDialogFragment(int position) {
+        FragmentManager fragmentManager = getFragmentManager();
+        FornecedorPurchaseDialogFragment dialog;
+        dialog = FornecedorPurchaseDialogFragment.newInstance(getString(R.string.new_compra),getString(R.string.add),fornecedores.get(position),position);
+        dialog.setCancelable(false);
+        dialog.show(fragmentManager, getString(R.string.new_compra));
+    }
+
     @Override
     public void onNewPurchaseClick(View v, int position) {
-        //NOVA COMPRA
+        showFornecedorPurchaseDialogFragment(position);
     }
 
     @Override

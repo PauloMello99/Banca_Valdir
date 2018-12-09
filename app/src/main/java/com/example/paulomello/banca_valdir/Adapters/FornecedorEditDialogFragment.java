@@ -5,24 +5,23 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.paulomello.banca_valdir.Models.Cliente;
+import com.example.paulomello.banca_valdir.Models.Compra;
 import com.example.paulomello.banca_valdir.Models.Venda;
 import com.example.paulomello.banca_valdir.R;
-import com.example.paulomello.banca_valdir.Utils.DatePickerDialogHelper;
 
-import java.text.SimpleDateFormat;
-import java.util.Locale;
+import java.text.NumberFormat;
 
-public class ClientePurchaseDialogFragment extends DialogFragment {
+public class FornecedorEditDialogFragment  extends DialogFragment {
 
     public interface NoticeDialogListener {
-        void onDialogPositiveClick(Venda venda, int position);
+        void onDialogPositiveClick(Compra compra, int position);
     }
 
     private static final String EXTRA_TITLE = "TITLE";
@@ -30,38 +29,37 @@ public class ClientePurchaseDialogFragment extends DialogFragment {
     private static final String EXTRA_ITEM = "SERIALIZABLE_ITEM";
     private static final String EXTRA_POSITION = "ITEM_POSITION";
 
-    private ClientePurchaseDialogFragment.NoticeDialogListener listener;
+    private FornecedorEditDialogFragment.NoticeDialogListener listener;
     private EditText valorEditText;
-    private EditText dataEditText;
-    private Venda currentVenda = null;
-    public static Cliente currentCliente = null;
+    private Compra currentCompra = null;
+    private NumberFormat format = NumberFormat.getCurrencyInstance();
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            listener = (ClientePurchaseDialogFragment.NoticeDialogListener) context;
+            listener = (FornecedorEditDialogFragment.NoticeDialogListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement NoticeDialogListener");
         }
     }
 
-    public static ClientePurchaseDialogFragment newInstance(String title, String positiveButton, Cliente cliente, int position) {
-        ClientePurchaseDialogFragment dialog = new ClientePurchaseDialogFragment();
-        currentCliente = cliente;
+    public static FornecedorEditDialogFragment newInstance(String title, String positiveButton, Compra compra, int position) {
+        FornecedorEditDialogFragment dialog = new FornecedorEditDialogFragment();
         Bundle bundle = new Bundle();
         bundle.putString(EXTRA_TITLE, title);
         bundle.putString(EXTRA_POSITIVE_BUTTON, positiveButton);
-        bundle.putSerializable(EXTRA_ITEM, cliente);
+        bundle.putSerializable(EXTRA_ITEM, compra);
         bundle.putInt(EXTRA_POSITION, position);
         dialog.setArguments(bundle);
         return dialog;
     }
 
-    public static ClientePurchaseDialogFragment newInstance(String title, String positiveButton) {
+    public static FornecedorEditDialogFragment newInstance(String title, String positiveButton) {
         return newInstance(title, positiveButton, null, -1);
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         final Context context = getActivity();
@@ -69,14 +67,19 @@ public class ClientePurchaseDialogFragment extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(bundle.getString(EXTRA_TITLE));
-        builder.setPositiveButton(bundle.getString(EXTRA_POSITIVE_BUTTON), new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.edit), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                currentVenda.setValor(valorEditText.getText().toString());
-                currentVenda.setData_venda(dataEditText.getText().toString());
-                currentVenda.setId_cliente(currentCliente.getId());
-                currentVenda.setStatus(getString(R.string.aberto));
-                listener.onDialogPositiveClick(currentVenda, bundle.getInt(EXTRA_POSITION));
+                String valorStr = valorEditText.getText().toString();
+                Double valor = Double.parseDouble(valorStr);
+                Double antigo = Double.parseDouble(currentCompra.getValor());
+                antigo -= valor;
+                currentCompra.setValor(String.valueOf(antigo));
+                if(antigo.equals(valor))
+                {
+                    currentCompra.setStatus("Pago");
+                }
+                listener.onDialogPositiveClick(currentCompra, bundle.getInt(EXTRA_POSITION));
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -87,17 +90,16 @@ public class ClientePurchaseDialogFragment extends DialogFragment {
         });
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.dialog_create_purchase, null, true);
+        View view = inflater.inflate(R.layout.dialog_edit_purchase, null, true);
         builder.setView(view);
 
-        setView(view);
-        DatePickerDialogHelper.setDatePickerDialog(dataEditText, context, new SimpleDateFormat(context.getString(R.string.date_formatter), new Locale("pt", "BR")));
+        setView(view, bundle);
         return builder.create();
     }
 
-    private void setView(View view) {
-        valorEditText = view.findViewById(R.id.valor);
-        dataEditText = view.findViewById(R.id.date_compra);
-        currentVenda = new Venda();
+    private void setView(View view, final Bundle bundle) {
+        valorEditText = view.findViewById(R.id.valor_edit);
+        currentCompra = (Compra) bundle.getSerializable(EXTRA_ITEM);
+        valorEditText.setText(currentCompra.getValor());
     }
 }

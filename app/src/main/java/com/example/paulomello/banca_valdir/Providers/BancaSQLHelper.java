@@ -12,7 +12,7 @@ public class BancaSQLHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "BancaDB";
 
-    private static final int DATABASE_VERSION = 15;
+    private static final int DATABASE_VERSION = 17;
     private Context context;
 
 
@@ -27,6 +27,7 @@ public class BancaSQLHelper extends SQLiteOpenHelper {
             sqLiteDatabase.execSQL(ClienteSchema.CREATE_TABLE_ITEM);
             sqLiteDatabase.execSQL(FornecedorSchema.CREATE_TABLE_ITEM);
             sqLiteDatabase.execSQL(VendaSchema.CREATE_TABLE_VENDA);
+            sqLiteDatabase.execSQL(CompraSchema.CREATE_TABLE_COMPRA);
         } catch (Exception ex){
             AlertDialog builder = new AlertDialog.Builder(context).setMessage(""+ex).show();
         }
@@ -38,6 +39,7 @@ public class BancaSQLHelper extends SQLiteOpenHelper {
             sqLiteDatabase.execSQL(ClienteSchema.DROP_TABLE_ITEM);
             sqLiteDatabase.execSQL(FornecedorSchema.DROP_TABLE_ITEM);
             sqLiteDatabase.execSQL(VendaSchema.DROP_TABLE_VENDA);
+            sqLiteDatabase.execSQL(CompraSchema.DROP_TABLE_COMPRA);
             onCreate(sqLiteDatabase);
         } catch (Exception ex){
             Log.e(DATABASE_NAME, "Error upgrade database");

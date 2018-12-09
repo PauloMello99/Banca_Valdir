@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.paulomello.banca_valdir.Models.Cliente;
+import com.example.paulomello.banca_valdir.Models.Compra;
+import com.example.paulomello.banca_valdir.Models.Fornecedor;
 import com.example.paulomello.banca_valdir.Models.Venda;
 import com.example.paulomello.banca_valdir.R;
 import com.example.paulomello.banca_valdir.Utils.DatePickerDialogHelper;
@@ -19,10 +21,10 @@ import com.example.paulomello.banca_valdir.Utils.DatePickerDialogHelper;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-public class ClientePurchaseDialogFragment extends DialogFragment {
+public class FornecedorPurchaseDialogFragment extends DialogFragment {
 
     public interface NoticeDialogListener {
-        void onDialogPositiveClick(Venda venda, int position);
+        void onDialogPositiveClick(Compra compra, int position);
     }
 
     private static final String EXTRA_TITLE = "TITLE";
@@ -30,35 +32,35 @@ public class ClientePurchaseDialogFragment extends DialogFragment {
     private static final String EXTRA_ITEM = "SERIALIZABLE_ITEM";
     private static final String EXTRA_POSITION = "ITEM_POSITION";
 
-    private ClientePurchaseDialogFragment.NoticeDialogListener listener;
+    private FornecedorPurchaseDialogFragment.NoticeDialogListener listener;
     private EditText valorEditText;
     private EditText dataEditText;
-    private Venda currentVenda = null;
-    public static Cliente currentCliente = null;
+    private Compra currentCompra = null;
+    public static Fornecedor currentFornecedor = null;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            listener = (ClientePurchaseDialogFragment.NoticeDialogListener) context;
+            listener = (FornecedorPurchaseDialogFragment.NoticeDialogListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement NoticeDialogListener");
         }
     }
 
-    public static ClientePurchaseDialogFragment newInstance(String title, String positiveButton, Cliente cliente, int position) {
-        ClientePurchaseDialogFragment dialog = new ClientePurchaseDialogFragment();
-        currentCliente = cliente;
+    public static FornecedorPurchaseDialogFragment newInstance(String title, String positiveButton, Fornecedor fornecedor, int position) {
+        FornecedorPurchaseDialogFragment dialog = new FornecedorPurchaseDialogFragment();
+        currentFornecedor = fornecedor;
         Bundle bundle = new Bundle();
         bundle.putString(EXTRA_TITLE, title);
         bundle.putString(EXTRA_POSITIVE_BUTTON, positiveButton);
-        bundle.putSerializable(EXTRA_ITEM, cliente);
+        bundle.putSerializable(EXTRA_ITEM, fornecedor);
         bundle.putInt(EXTRA_POSITION, position);
         dialog.setArguments(bundle);
         return dialog;
     }
 
-    public static ClientePurchaseDialogFragment newInstance(String title, String positiveButton) {
+    public static FornecedorPurchaseDialogFragment newInstance(String title, String positiveButton) {
         return newInstance(title, positiveButton, null, -1);
     }
 
@@ -72,11 +74,11 @@ public class ClientePurchaseDialogFragment extends DialogFragment {
         builder.setPositiveButton(bundle.getString(EXTRA_POSITIVE_BUTTON), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                currentVenda.setValor(valorEditText.getText().toString());
-                currentVenda.setData_venda(dataEditText.getText().toString());
-                currentVenda.setId_cliente(currentCliente.getId());
-                currentVenda.setStatus(getString(R.string.aberto));
-                listener.onDialogPositiveClick(currentVenda, bundle.getInt(EXTRA_POSITION));
+                currentCompra.setValor(valorEditText.getText().toString());
+                currentCompra.setData_compra(dataEditText.getText().toString());
+                currentCompra.setId_fornecedor(currentFornecedor.getId());
+                currentCompra.setStatus(getString(R.string.aberto));
+                listener.onDialogPositiveClick(currentCompra, bundle.getInt(EXTRA_POSITION));
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -98,6 +100,6 @@ public class ClientePurchaseDialogFragment extends DialogFragment {
     private void setView(View view) {
         valorEditText = view.findViewById(R.id.valor);
         dataEditText = view.findViewById(R.id.date_compra);
-        currentVenda = new Venda();
+        currentCompra = new Compra();
     }
 }
